@@ -1,7 +1,54 @@
 #include "HashTable.h"
+void DeleteAll(HashTable::node** node)
+{
+	if (*node)
+	{
+		if ((*node)->left) { DeleteAll(&((*node)->left)); }
+		if ((*node)->right) { (&((*node)->right)); }
+		delete *node;
+		*node = 0;
+	}
+}
 
+HashTable::node * find(HashTable::Handle tar, HashTable::node *start)
+{
+	if ((start != 0) && (start->key == tar)) return start;
+	else if ((start != 0) && (start->key < tar)) return find(tar, start->left);
+	else if ((start != 0) && (start->key > tar)) return find(tar, start->right);
+	else return 0;
+}
 
+HashTable::node ** findPtr(HashTable::Handle tar, HashTable::node **start)
+{
+	if ((start != 0) && ((*start)->key == tar)) return start;
+	else if ((start != 0) && ((*start)->key < tar)) return findPtr(tar, &((*start)->left));
+	else if ((start != 0) && ((*start)->key > tar)) return findPtr(tar, &((*start)->right));
+	else return 0;
+}
+void Insert(HashTable::node *tar, HashTable::node *start)
+{
+	if (start->key == tar->key) return;
+	if (start->key < tar->key) {
+		if (start->left)
+			Insert(tar, start->left);
+		else
+		{
+			start->left = tar;
+			return;
+		}
+	}
+	else
+	{
+		if (start->right)
+			Insert(tar, start->right);
+		else
+		{
+			start->right = tar;
+			return;
+		}
+	}
 
+}
 void HashTable::insert(std::string name, Data value)
 {
 	node* temp = new node();
@@ -15,204 +62,52 @@ void HashTable::insert(std::string name, Data value)
 		return;
 	}
 	node* iterator = root;
-	while (true)
-	{
-		if (iterator->key < temp->key)
-		{
-			if (!(iterator->left))
-			{
-				iterator->left = temp;
-				return;
-			}
-			else
-			{
-				iterator = iterator->left;
-				break;
-			}
-		}
-		else if (iterator->key > temp->key)
-		{
-			if (!(iterator->right))
-			{
-				iterator->right = temp;
-				return;
-			}
-			else
-			{
-				iterator = iterator->right;
-				break;
-			}
-		}
-		else return;
-	}
+	Insert(temp, iterator);
 
 }
 
 Data HashTable::operator[](std::string name)
 {
 	Handle _hash = hash((ubyte*)name.c_str(), name.size());
-	if (!root)
-	{
-		if(root->key == _hash)
-		return root->value;
-	}
+
 	node* iterator = root;
-	while (true)
-	{
-		if (iterator->key < _hash)
-		{
-			if (!(iterator->left))
-				return 0;
-			else
-			{
-				iterator = iterator->left;
-				break;
-			}
-		}
-		else if (iterator->key > _hash)
-		{
-			if (!(iterator->right))
-			{
-				return 0;
-			}
-			else
-			{
-				iterator = iterator->right;
-				break;
-			}
-		}
-		else return iterator->value;
-	}
+	return find(_hash, root) ? find(_hash, root)->value : 0;
 }
 
 void HashTable::erase(std::string _name)
 {
 	Handle _hash = hash((ubyte*)_name.c_str(), _name.size());
-	if (!root)
+	node** iterator = &root;
+	node** toDelete = findPtr(_hash, iterator);
+	if (!toDelete) return;
+	node *left = (*toDelete)->left, *right = (*toDelete)->right;
+	if (*toDelete == root)
 	{
-		if (root->key == _hash)
+		(*toDelete)->value.ResetCount();
+		delete *toDelete;
+		if (!left) {
+			root = right;
+			return;
+		}
+		root = left;
+		if (right)
 		{
-
+			*iterator = root;
+			Insert(right, *iterator);
+			return;
 		}
 	}
-	node* iterator = root;
-	while (true)
-	{
-		if (iterator->key < _hash)
-		{
-			if (!(iterator->left))
-				return;
-			else
-			{
-				iterator = iterator->left;
-				break;
-			}
-		}
-		else if (iterator->key > _hash)
-		{
-			if (!(iterator->right))
-			{
-				return;
-			}
-			else
-			{
-				iterator = iterator->right;
-				break;
-			}
-		}
-		else
-		{
-			node *_left = iterator->left, *_right = iterator->right;
-			delete iterator;
-			if (_right)
-			{
-				if (!root)
-				{
-					root = _right;
-					
-				}
-				else
-				{
-					iterator = root;
-					while (true)
-					{
-						if (iterator->key < _right->key)
-						{
-							if (!(iterator->left))
-							{
-								iterator->left = _right;
-								break;
-							}
-							else
-							{
-								iterator = iterator->left;
-								continue;
-							}
-						}
-						else if (iterator->key > _right->key)
-						{
-							if (!(iterator->right))
-							{
-								iterator->right = _right;
-								break;
-							}
-							else
-							{
-								iterator = iterator->right;
-								continue;
-							}
-						}
-						else return;
-					}
-				}
-				if (_left)
-				{
-					if (!root)
-					{
-						root = _left;
-					}
-					else
-					{
-						iterator = root;
-						while (true)
-						{
-							if (iterator->key < _left->key)
-							{
-								if (!(iterator->left))
-								{
-									iterator->left = _left;
-									break;
-								}
-								else
-								{
-									iterator = iterator->left;
-									continue;
-								}
-							}
-							else if (iterator->key > _left->key)
-							{
-								if (!(iterator->right))
-								{
-									iterator->right = _left;
-									break;
-								}
-								else
-								{
-									iterator = iterator->right;
-									continue;
-								}
-							}
-							else break;
-						}
-					}
-			}
-		}
-	}
+	(*toDelete)->value.ResetCount();
+	delete *toDelete;
+	*toDelete = 0;
+	*iterator = root;
+	if (left) Insert(left, *iterator);
+	*iterator = root;
+	if (right) Insert(right, *iterator);
 }
-
 void HashTable::Clear()
 {
-	return;
+	DeleteAll(&root);
 }
 
 HashTable::HashTable()
@@ -223,6 +118,7 @@ HashTable::HashTable()
 
 HashTable::~HashTable()
 {
+	DeleteAll(&root);
 }
 HashTable::Handle HashTable::hash(ubyte * _input, int _size)
 {

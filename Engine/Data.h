@@ -5,6 +5,7 @@ class _EXPORT Data
 public:
 	//kontruktory i destruktory
 	Data(char* _p = 0);
+	Data(char* p, size_t s);
 	Data(const Data&);
 	~Data();
 	//operatory przypisania
@@ -26,8 +27,10 @@ public:
 
 	size_t getSize() { return size; }
 	void setSize(size_t p) { size = p; }
+	void ResetCount() { refCount = 1; }
 private:
 	char* m_data;
 	size_t size;
+	int refCount;
 };
 

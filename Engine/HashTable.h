@@ -7,21 +7,27 @@ class _EXPORT HashTable
 public:
 	typedef unsigned int Handle;
 	typedef unsigned char ubyte;
-	void insert(std::string name, Data value);
-	Data operator[](std::string);
-	void erase(std::string);
-	void Clear();
-	HashTable();
-	~HashTable();
 private:
-	struct node
+	struct _EXPORT node
 	{
-		unsigned int key;
+		Handle key;
 		Data value;
 		node* left;
 		node* right;
 	};
 	node* root;
 	Handle hash(ubyte* _input, int _size);
+public:
+
+	void insert(std::string name, Data value);
+	Data operator[](std::string);
+	void erase(std::string);
+	void Clear();
+	HashTable();
+	~HashTable();
+	friend void DeleteAll(node**);
+	friend node* find(Handle, node*);
+	friend node** findPtr(Handle, node**);
+	friend void Insert(node*, node*);
 };
 

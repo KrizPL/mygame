@@ -17,13 +17,9 @@ bool CResourcesMgr::LoadArchive(const char * path)
 	for (int i = 0; i < entries; i++)
 	{
 		ZipArchiveEntry::Ptr entry = file->GetEntry(i);
-		File temp;
-		std::string name = entry->GetFullName();
-		temp.first = hash((ubyte*)(name.c_str()), name.size());
-		temp.second = new char[entry->GetSize()];
-		entry->GetDecompressionStream()->read(temp.second, entry->GetSize());
-		temp.second.setSize(entry->GetSize());
-		Files.insert(temp);
+		char* _d = new char[entry->GetSize()];
+		entry->GetDecompressionStream()->read(_d, entry->GetSize());
+		Files.insert(entry->GetFullName(), Data(_d, entry->GetSize()));
 	}
 	return true;
 }
@@ -33,45 +29,38 @@ bool CResourcesMgr::LoadFileFromDisk(const char * path)
 	std::ifstream file(path,std::ios::binary);
 	if (!(file.good()))
 		return false;
-	File temp;
-	temp.first = hash((ubyte*)path, strlen(path));
 	int start = 0, end = 0;
 	file.seekg(file.end);
 	end = (int)file.tellg();
 	file.seekg(file.beg);
 	start = (int)file.tellg();
-	temp.second = new char[(end - start)];
-	file.read(temp.second, (end - start));
+	char* _d = new char[(end - start)];
+	file.read(_d, (end - start));
 	file.close();
-	temp.second.setSize(end - start);
-	if (!temp.second)
+	if (!_d)
 		return false;
-	Files.insert(temp);
+	Files.insert(path, Data(_d,(end - start)));
 	return true;
 }
 
 Data CResourcesMgr::getFile(const char * path)
 {
-	size_t stringSize = strlen(path);
-	Handle handle = hash((ubyte*)path, stringSize);
-	return Files[handle];
+	return Files[path];
 }
 
 void CResourcesMgr::FreeFile(const char * path)
 {
-	size_t stringSize = strlen(path);
-	Handle file = hash((ubyte*)path, stringSize);
-	Files.erase(file);
+	Files.erase(path);
 }
 
 void CResourcesMgr::ClearMgr()
 {
-	Files.clear();
+	Files.Clear();
 }
 
 CResourcesMgr::CResourcesMgr()
 {
-	Files.clear();
+	Files.Clear();
 }
 
 

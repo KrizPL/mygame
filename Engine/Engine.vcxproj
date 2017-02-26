@@ -24,7 +24,7 @@
     <ClInclude Include="HashTable.h" />
     <ClInclude Include="Img.h" />
     <ClInclude Include="ResourcesMgr.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Singleton.h" />
   </ItemGroup>
@@ -33,7 +33,7 @@
     <ClCompile Include="HashTable.cpp" />
     <ClCompile Include="Img.cpp" />
     <ClCompile Include="ResourcesMgr.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
