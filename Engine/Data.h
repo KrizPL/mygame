@@ -1,5 +1,6 @@
 #pragma once
-class Data
+#include "Common.h"
+class _EXPORT Data
 {
 public:
 	//kontruktory i destruktory

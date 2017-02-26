@@ -27,7 +27,9 @@
     <ClInclude Include="ResourcesMgr.h">
       <Filter>ResourcesMgr</Filter>
     </ClInclude>
-    <ClInclude Include="Data.h" />
+    <ClInclude Include="Data.h">
+      <Filter>Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Img.cpp">
@@ -36,6 +38,8 @@
     <ClCompile Include="ResourcesMgr.cpp">
       <Filter>ResourcesMgr</Filter>
     </ClCompile>
-    <ClCompile Include="Data.cpp" />
+    <ClCompile Include="Data.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
