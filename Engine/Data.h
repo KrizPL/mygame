@@ -23,7 +23,11 @@ public:
 	//operatory rzutowania na "g≥upi" wskaünik
 	operator char* () { return m_data; }
 	operator const char*() const { return m_data; }
+
+	size_t getSize() { return size; }
+	void setSize(size_t p) { size = p; }
 private:
 	char* m_data;
+	size_t size;
 };
 

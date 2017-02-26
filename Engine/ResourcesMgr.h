@@ -4,7 +4,8 @@
 #include <map>
 #include <memory>
 #include "Data.h"
-class _EXPORT CResourcesMgr 
+EXPIMP_TEMPLATE template class _EXPORT std::map<unsigned int, Data>;
+class _EXPORT CResourcesMgr
 	: public Singleton<CResourcesMgr>
 {
 public:
@@ -19,8 +20,10 @@ public:
 	bool LoadArchive(const char* path);
 	bool LoadFileFromDisk(const char* path);
 	Data getFile(const char* path);
+	void FreeFile(const char* path);
+	void ClearMgr();
 private:
+	
 	Handle hash(ubyte* _input, int _size);
 	FilesList Files;
 };
-

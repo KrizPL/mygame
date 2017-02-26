@@ -20,7 +20,9 @@ bool CResourcesMgr::LoadArchive(const char * path)
 		File temp;
 		std::string name = entry->GetFullName();
 		temp.first = hash((ubyte*)(name.c_str()), name.size());
+		temp.second = new char[entry->GetSize()];
 		entry->GetDecompressionStream()->read(temp.second, entry->GetSize());
+		temp.second.setSize(entry->GetSize());
 		Files.insert(temp);
 	}
 	return true;
@@ -28,7 +30,7 @@ bool CResourcesMgr::LoadArchive(const char * path)
 
 bool CResourcesMgr::LoadFileFromDisk(const char * path)
 {
-	std::ifstream file(path);
+	std::ifstream file(path,std::ios::binary);
 	if (!(file.good()))
 		return false;
 	File temp;
@@ -38,8 +40,10 @@ bool CResourcesMgr::LoadFileFromDisk(const char * path)
 	end = (int)file.tellg();
 	file.seekg(file.beg);
 	start = (int)file.tellg();
+	temp.second = new char[(end - start)];
 	file.read(temp.second, (end - start));
 	file.close();
+	temp.second.setSize(end - start);
 	if (!temp.second)
 		return false;
 	Files.insert(temp);
@@ -53,8 +57,21 @@ Data CResourcesMgr::getFile(const char * path)
 	return Files[handle];
 }
 
+void CResourcesMgr::FreeFile(const char * path)
+{
+	size_t stringSize = strlen(path);
+	Handle file = hash((ubyte*)path, stringSize);
+	Files.erase(file);
+}
+
+void CResourcesMgr::ClearMgr()
+{
+	Files.clear();
+}
+
 CResourcesMgr::CResourcesMgr()
 {
+	Files.clear();
 }
 
 
@@ -62,17 +79,4 @@ CResourcesMgr::~CResourcesMgr()
 {
 }
 
-CResourcesMgr::Handle CResourcesMgr::hash(ubyte * _input, int _size)
-{
-	Handle hashO = 0;
-	for (int i = 0; i < _size; i++)
-	{
-		hashO += _input[i];
-		hashO += hashO << 10;
-		hashO ^= hashO >> 6;
-	}
-	hashO += hashO << 3;
-	hashO += hashO >> 11;
-	hashO ^= hashO << 15;
-	return hashO;
-}
+

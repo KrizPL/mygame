@@ -21,14 +21,20 @@
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="Data.h" />
+    <ClInclude Include="HashTable.h" />
     <ClInclude Include="Img.h" />
-    <ClInclude Include="ResourcesMgr.h" />
+    <ClInclude Include="ResourcesMgr.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Singleton.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Data.cpp" />
+    <ClCompile Include="HashTable.cpp" />
     <ClCompile Include="Img.cpp" />
-    <ClCompile Include="ResourcesMgr.cpp" />
+    <ClCompile Include="ResourcesMgr.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3E5F1C9D-15BD-4437-8A7F-C976B3155780}</ProjectGuid>

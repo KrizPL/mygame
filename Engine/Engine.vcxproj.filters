@@ -13,6 +13,9 @@
     <Filter Include="Data">
       <UniqueIdentifier>{483e1b59-86ae-40ab-b8e9-6d292ba794d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HashTable">
+      <UniqueIdentifier>{986f2d64-8f65-48ef-a2b0-caee7edb7025}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h">
@@ -30,6 +33,9 @@
     <ClInclude Include="Data.h">
       <Filter>Data</Filter>
     </ClInclude>
+    <ClInclude Include="HashTable.h">
+      <Filter>HashTable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Img.cpp">
@@ -40,6 +46,9 @@
     </ClCompile>
     <ClCompile Include="Data.cpp">
       <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="HashTable.cpp">
+      <Filter>HashTable</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
