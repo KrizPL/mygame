@@ -5,16 +5,18 @@ void DeleteAll(HashTable::node** node)
 	{
 		if ((*node)->left) { DeleteAll(&((*node)->left)); }
 		if ((*node)->right) { (&((*node)->right)); }
+		delete (*node)->value;
+		(*node)->value;
 		delete *node;
 		*node = 0;
 	}
 }
 
-HashTable::node * find(HashTable::Handle tar, HashTable::node *start)
+HashTable::node * _find(HashTable::Handle tar, HashTable::node *start)
 {
 	if ((start != 0) && (start->key == tar)) return start;
-	else if ((start != 0) && (start->key < tar)) return find(tar, start->left);
-	else if ((start != 0) && (start->key > tar)) return find(tar, start->right);
+	else if ((start != 0) && (start->key < tar)) return _find(tar, start->left);
+	else if ((start != 0) && (start->key > tar)) return _find(tar, start->right);
 	else return 0;
 }
 
@@ -49,11 +51,12 @@ void Insert(HashTable::node *tar, HashTable::node *start)
 	}
 
 }
-void HashTable::insert(std::string name, Data value)
+void HashTable::insert(std::string name, char* value, size_t _size)
 {
 	node* temp = new node();
 	temp->left = 0;
 	temp->right = 0;
+	temp->size = _size;
 	temp->key = hash((ubyte*)name.c_str(), name.size());
 	temp->value = value;
 	if (!root)
@@ -66,12 +69,15 @@ void HashTable::insert(std::string name, Data value)
 
 }
 
-Data HashTable::operator[](std::string name)
+char* HashTable::find(std::string name, size_t& _size)
 {
 	Handle _hash = hash((ubyte*)name.c_str(), name.size());
 
 	node* iterator = root;
-	return find(_hash, root) ? find(_hash, root)->value : 0;
+	node* _findNode = _find(_hash, root);
+	if (!_findNode) return 0;
+	_size = _findNode->size;
+	return _find(_hash, root)->value;
 }
 
 void HashTable::erase(std::string _name)
@@ -83,7 +89,8 @@ void HashTable::erase(std::string _name)
 	node *left = (*toDelete)->left, *right = (*toDelete)->right;
 	if (*toDelete == root)
 	{
-		(*toDelete)->value.ResetCount();
+		delete [] (*toDelete)->value;
+		(*toDelete)->value = 0;
 		delete *toDelete;
 		if (!left) {
 			root = right;
@@ -97,7 +104,8 @@ void HashTable::erase(std::string _name)
 			return;
 		}
 	}
-	(*toDelete)->value.ResetCount();
+	delete[] (*toDelete)->value;
+	(*toDelete)->value = 0;
 	delete *toDelete;
 	*toDelete = 0;
 	*iterator = root;

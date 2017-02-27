@@ -17,7 +17,7 @@ public:
 
 	bool LoadArchive(const char* path);
 	bool LoadFileFromDisk(const char* path);
-	Data getFile(const char* path);
+	char* getFile(const char* path, size_t& _size);
 	void FreeFile(const char* path);
 	void ClearMgr();
 private:

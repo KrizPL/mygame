@@ -1,5 +1,5 @@
 #include "Data.h"
-
+#include <cstring>
 Data::Data(char * _p)
 	:refCount(1)
 {
@@ -8,7 +8,8 @@ Data::Data(char * _p)
 
 Data::Data(char * _p, size_t s)
 {
-	m_data = _p;
+	m_data = new char[s];
+	memcpy(m_data, _p, s);
 	size = s;
 }
 

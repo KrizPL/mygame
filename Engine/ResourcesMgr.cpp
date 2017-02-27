@@ -19,7 +19,8 @@ bool CResourcesMgr::LoadArchive(const char * path)
 		ZipArchiveEntry::Ptr entry = file->GetEntry(i);
 		char* _d = new char[entry->GetSize()];
 		entry->GetDecompressionStream()->read(_d, entry->GetSize());
-		Files.insert(entry->GetFullName(), Data(_d, entry->GetSize()));
+		
+		Files.insert(entry->GetFullName(), _d, entry->GetSize());
 	}
 	return true;
 }
@@ -39,13 +40,13 @@ bool CResourcesMgr::LoadFileFromDisk(const char * path)
 	file.close();
 	if (!_d)
 		return false;
-	Files.insert(path, Data(_d,(end - start)));
+	Files.insert(path, _d, end-start);
 	return true;
 }
 
-Data CResourcesMgr::getFile(const char * path)
+char* CResourcesMgr::getFile(const char * path, size_t& _size)
 {
-	return Files[path];
+	return Files.find(path, _size);
 }
 
 void CResourcesMgr::FreeFile(const char * path)
