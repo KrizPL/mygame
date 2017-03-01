@@ -9,7 +9,7 @@
 #pragma comment(lib,"libs/ziplib/lib/ZipLib.lib")
 #pragma comment(lib,"libs/ziplib/lib/zlib.lib")
 
-bool CResourcesMgr::LoadArchive(const char * path)
+bool Engine::CResourcesMgr::LoadArchive(const char * path)
 {
 	ZipArchive::Ptr file = ZipFile::Open(path);
 	if (!file) return false;
@@ -25,7 +25,7 @@ bool CResourcesMgr::LoadArchive(const char * path)
 	return true;
 }
 
-bool CResourcesMgr::LoadFileFromDisk(const char * path)
+bool Engine::CResourcesMgr::LoadFileFromDisk(const char * path)
 {
 	std::ifstream file(path,std::ios::binary);
 	if (!(file.good()))
@@ -44,28 +44,31 @@ bool CResourcesMgr::LoadFileFromDisk(const char * path)
 	return true;
 }
 
-char* CResourcesMgr::getFile(const char * path, size_t& _size)
+char* Engine::CResourcesMgr::getFile(const char * path, size_t& _size) throw (Engine::Error)
 {
-	return Files.find(path, _size);
+	char* result = Files.find(path, _size);
+	if (!result)
+		throw Engine::FILE_NOT_FOUND;
+	return 
 }
 
-void CResourcesMgr::FreeFile(const char * path)
+void Engine::CResourcesMgr::FreeFile(const char * path)
 {
 	Files.erase(path);
 }
 
-void CResourcesMgr::ClearMgr()
+void Engine::CResourcesMgr::ClearMgr()
 {
 	Files.Clear();
 }
 
-CResourcesMgr::CResourcesMgr()
+Engine::CResourcesMgr::CResourcesMgr()
 {
 	Files.Clear();
 }
 
 
-CResourcesMgr::~CResourcesMgr()
+Engine::CResourcesMgr::~CResourcesMgr()
 {
 }
 

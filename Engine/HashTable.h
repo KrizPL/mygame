@@ -1,14 +1,14 @@
 #pragma once
-#include "Data.h"
 #include "Common.h"
 #include <string>
+
 class _EXPORT HashTable
 {
 public:
 	typedef unsigned int Handle;
 	typedef unsigned char ubyte;
 private:
-	struct _EXPORT node
+	struct node
 	{
 		Handle key;
 		char* value;

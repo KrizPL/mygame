@@ -5,7 +5,7 @@ void DeleteAll(HashTable::node** node)
 	{
 		if ((*node)->left) { DeleteAll(&((*node)->left)); }
 		if ((*node)->right) { (&((*node)->right)); }
-		delete (*node)->value;
+		delete[] (*node)->value;
 		(*node)->value;
 		delete *node;
 		*node = 0;

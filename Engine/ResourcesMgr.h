@@ -3,23 +3,26 @@
 #include "Singleton.h"
 #include <map>
 #include <memory>
-#include "Data.h"
 #include "HashTable.h"
-class _EXPORT CResourcesMgr
-	: public Singleton<CResourcesMgr>
+
+namespace Engine
 {
-public:
-	typedef unsigned int Handle;
-	typedef unsigned char ubyte;
+	class _EXPORT CResourcesMgr
+		: public Singleton<CResourcesMgr>
+	{
+	public:
+		typedef unsigned int Handle;
+		typedef unsigned char ubyte;
 
-	CResourcesMgr();
-	~CResourcesMgr();
+		CResourcesMgr();
+		~CResourcesMgr();
 
-	bool LoadArchive(const char* path);
-	bool LoadFileFromDisk(const char* path);
-	char* getFile(const char* path, size_t& _size);
-	void FreeFile(const char* path);
-	void ClearMgr();
-private:
-	HashTable Files;
-};
+		bool LoadArchive(const char* path);
+		bool LoadFileFromDisk(const char* path);
+		char* getFile(const char* path, size_t& _size) throw (Engine::Error);
+		void FreeFile(const char* path);
+		void ClearMgr();
+	private:
+		HashTable Files;
+	};
+}

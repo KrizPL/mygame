@@ -10,11 +10,14 @@
     <Filter Include="ResourcesMgr">
       <UniqueIdentifier>{92c6010d-1451-400c-bf59-27c84ff81c9e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Data">
-      <UniqueIdentifier>{483e1b59-86ae-40ab-b8e9-6d292ba794d5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="HashTable">
       <UniqueIdentifier>{986f2d64-8f65-48ef-a2b0-caee7edb7025}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Texture">
+      <UniqueIdentifier>{67d7d8e9-23f1-404c-8e22-1a6def25708b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render">
+      <UniqueIdentifier>{6b7dc007-1124-4008-bacf-dff500614b6c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -30,11 +33,14 @@
     <ClInclude Include="ResourcesMgr.h">
       <Filter>ResourcesMgr</Filter>
     </ClInclude>
-    <ClInclude Include="Data.h">
-      <Filter>Data</Filter>
-    </ClInclude>
     <ClInclude Include="HashTable.h">
       <Filter>HashTable</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Render.h">
+      <Filter>Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -44,11 +50,14 @@
     <ClCompile Include="ResourcesMgr.cpp">
       <Filter>ResourcesMgr</Filter>
     </ClCompile>
-    <ClCompile Include="Data.cpp">
-      <Filter>Data</Filter>
-    </ClCompile>
     <ClCompile Include="HashTable.cpp">
       <Filter>HashTable</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.cpp">
+      <Filter>Render</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
