@@ -16,8 +16,8 @@ namespace Engine
 		HGLRC hRC;
 	public:
 		CRender();
-		virtual void Updata() = 0;
-		virtual bool Init() = 0;
+		void startFrame();
+		void endFrame();
 		bool OpenGLInit(HWND&, int width, int height, int colorDepth) throw (Engine::Error);
 
 		~CRender();

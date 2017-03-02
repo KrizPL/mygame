@@ -49,7 +49,7 @@ char* Engine::CResourcesMgr::getFile(const char * path, size_t& _size) throw (En
 	char* result = Files.find(path, _size);
 	if (!result)
 		throw Engine::FILE_NOT_FOUND;
-	return 
+	return result;
 }
 
 void Engine::CResourcesMgr::FreeFile(const char * path)

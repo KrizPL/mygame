@@ -1,11 +1,28 @@
 #include "Render.h"
 
-
+#pragma comment(lib, "OPENGL32.lib")
+#pragma comment(lib, "GLU32.lib")
 
 Engine::CRender::CRender()
 {
+	wglMakeCurrent(0, 0);
+	wglDeleteContext(hRC);
+	ReleaseDC(hWnd, hDC);
+
 }
 
+void Engine::CRender::startFrame()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+}
+
+
+void Engine::CRender::endFrame()
+{
+	SwapBuffers(this->hDC);
+}
 
 bool Engine::CRender::OpenGLInit(HWND& _hWnd, int width, int height, int colorDepth) throw (Engine::Error)
 {
@@ -62,13 +79,6 @@ bool Engine::CRender::OpenGLInit(HWND& _hWnd, int width, int height, int colorDe
 	glClearColor(0.f, 0.f, 1.f, 1.f);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	if (!Init())
-	{
-		wglMakeCurrent(0, 0);
-		wglDeleteContext(hRC);
-		ReleaseDC(hWnd, hDC);
-		return false;
-	}
 	return true;
 }
 
